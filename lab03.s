@@ -101,6 +101,31 @@ rgb888_to_rgb565:
 # ----------------------------------------
 # Write your code here.
 # You may move the "return" instruction (jalr zero, ra, 0).
+    add t1, zero, zero
+myrowloop:
+    beq t1, a2, exitmyrowloop
+    add t0, zero, zero
+myloop:
+    beq t0, a1, exitmyloop
+    lbu  t2, 0(a0)   # r
+    lbu  t3, 1(a0)   # g
+    lbu  t4, 2(a0)   # b
+    srli t2, t2, 3
+    slli t2, t2, 11
+    srli t3, t3, 2
+    slli t3, t3, 5
+    srli t4, t4, 3
+    or t2, t2, t3
+    or t2, t2, t4
+    addi t0, t0, 1
+    addi a0, a0, 3
+    sw t2, 0(a3)
+    addi a3, a3, 2
+    j myloop
+exitmyloop:
+    addi t1, t1, 1
+    j myrowloop
+exitmyrowloop:
     jalr zero, ra, 0
 
 
